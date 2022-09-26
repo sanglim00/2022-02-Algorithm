@@ -1,22 +1,35 @@
 #include <iostream>
 using namespace std;
 
-void hanoi(int n, int a, int b, int c) {
-    string s = " to ";
-    string s2 = ", moving tower is :  ";
-
-    int nowTower, checkTower ;
-
-    if (n > 0) {
-        hanoi(n-1, a, c, b);
-        nowTower = n;
-        if(c == 3) checkTower = nowTower;
-        else checkTower = 0;
-        cout<< a << s << c << s2 << nowTower <<endl;
-        cout << checkTower << endl;
-        hanoi(n-1, b, a, c);
-       
+void push(int *arr, int &idx, int val) {
+    if(sizeof(arr) != idx+1) {
+        arr[idx] = val;
+        cout<< arr[idx] <<' ';
+        idx++;
     }
+    else cout<< val <<' ';
+    
+}
+void pop(int *arr, int &idx) {
+    if(idx == 0) cout<< 0 <<' ';
+    else if(idx ==1) cout<< arr[idx--]<<' ';
+    else {
+        idx--;
+        arr[idx] = 0;
+        cout<<arr[idx-1]<<' ';
+    }
+}
+
+
+void hanoi(int num, int a, int b, int c, int* arr, int &idx) {
+
+    if (num > 0) {
+        hanoi(num-1, a, c, b, arr, idx);
+        if(c == 3) push(arr, idx, num);
+        else if(a == 3) pop(arr, idx);
+        hanoi(num-1, b, a, c, arr, idx);
+    }
+
 }
 
 int main() {
@@ -26,7 +39,10 @@ int main() {
 
     for(int i = 0; i< times; i++) {
         cin >> num;
-        hanoi(num, 1, 2, 3);
+        int idx = 0;
+        int* arr = new int[num];
+        hanoi(num, 1, 2, 3, arr, idx);
+        cout<< endl;
     }
 
     return 0;
