@@ -2,12 +2,8 @@
 using namespace std;
 
 void push(int *arr, int &idx, int val) {
-    if(sizeof(arr) != idx+1) {
-        arr[idx] = val;
-        cout<< arr[idx] <<' ';
-        idx++;
-    }
-    else cout<< val <<' ';
+    arr[idx++] = val;
+    cout<< arr[idx-1] <<' ';
     
 }
 void pop(int *arr, int &idx) {
