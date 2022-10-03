@@ -1,19 +1,12 @@
 #include <iostream>
 using namespace std;
 
-#define MAXSIZE 9
-#define MARK 1
-#define UNMARK 0
-
 struct Point {
     int x;
     int y;
 };
 
-Point direction[8] = {
-    {1, -2}, {2, -1}, {1, 2}, {-2, -1}, 
-    {-1, 2}, {-2, 1}, {-1, -2}, {2, 1}
-};
+Point direction[8] = {{2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}, {1, -2}, {2, -1}};
 
 int** board; 
 int** path;
@@ -27,13 +20,14 @@ int Tour(int m, int n, Point pos, int counter) {
         next.x = pos.x + direction[i].x;
         next.y = pos.y + direction[i].y;
 
-        if(next.x >= 0 && next.x < n && next.y >= 0 && next.y < m && board[next.y][next.x] != MARK) {
-            board[next.y][next.x] = MARK;
+        if(next.x >= 0 && next.x < n && next.y >= 0 && next.y < m && board[next.y][next.x] != 1) {
+            board[next.y][next.x] = 1;
             path[next.y][next.x] = counter + 1;
 
-            if(Tour(m, n, next, counter+1)) return 1;
+            int answer = Tour(m, n, next, counter+1);
 
-            board[next.y][next.x] = UNMARK;
+            if(answer == 1) return 1;
+            board[next.y][next.x] = 0;
         }
     }
 
@@ -59,26 +53,25 @@ int main() {
         }
         for(int j = 0; j < m; j++) {
             for(int k = 0; k < n; k++) {
-                board[j][k] = UNMARK;
+                board[j][k] = 0;
             }
         }
-        board[s-1][t-1] = MARK;
+        board[s-1][t-1] = 1;
         path[s-1][t-1] = 1;
         start.x = s-1;
         start.y = t-1;
 
         int answer = Tour(m, n, start, 1);
         cout<< answer<< endl;
-        cout<< start.x << ' '<<start.y <<endl;
         
-        // if( answer) {
+        if( answer) {
             for(int j = 0; j < m; j++) {
                 for(int k = 0; k < n; k++) {
                     cout<< path[j][k]<< ' ';
                 }
                 cout<<endl;
             }
-        // }
+        }
     }
 
     return 0;
