@@ -1,33 +1,36 @@
 #include <iostream>
 using namespace std;
 
+#define MAXSIZE 9
+#define MARK 1
+#define UNMARK 0
+
 struct Point {
     int x;
     int y;
 };
 
-Point direction[8] = {{2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}, {1, -2}, {2, -1}};
+Point direction[8] = {{1, -2}, {2, -1}, {1, 2}, {-2, -1}, {-1, 2}, {-2, 1}, {-1, -2}, {2, 1}};
+int board[MAXSIZE][MAXSIZE], path[MAXSIZE][MAXSIZE];
 
-int** board; 
-int** path;
 
 int Tour(int m, int n, Point pos, int counter) {
-    Point next;
 
     if(counter == m * n) return 1;
 
+    Point next;
     for(int i = 0; i< 8; i++) {
         next.x = pos.x + direction[i].x;
         next.y = pos.y + direction[i].y;
 
-        if(next.x >= 0 && next.x < n && next.y >= 0 && next.y < m && board[next.y][next.x] != 1) {
-            board[next.y][next.x] = 1;
+        if(next.x > 0 && next.x <= n && next.y > 0 && next.y <= m && board[next.y][next.x] != MARK) {
+            board[next.y][next.x] = MARK;
             path[next.y][next.x] = counter + 1;
 
             int answer = Tour(m, n, next, counter+1);
+            if(answer) return 1;
 
-            if(answer == 1) return 1;
-            board[next.y][next.x] = 0;
+            board[next.y][next.x] = UNMARK;
         }
     }
 
@@ -44,29 +47,24 @@ int main() {
         Point start;
         cin >> m >> n >> s >> t;
 
-        board = new int*[m];  
-        path = new int*[m];
-
-        for(int j = 0; j < m; j++) {
-            board[j] = new int[n];
-            path[j] = new int[n];
-        }
-        for(int j = 0; j < m; j++) {
-            for(int k = 0; k < n; k++) {
-                board[j][k] = 0;
+        for(int j = 1; j <= m; j++) {
+            for(int k = 1; k <= n; k++) {
+                board[j][k] = UNMARK;
             }
         }
-        board[s-1][t-1] = 1;
-        path[s-1][t-1] = 1;
-        start.x = s-1;
-        start.y = t-1;
+
+        board[s][t] = MARK;
+        path[s][t] = 1;
+        start.x = t;
+        start.y = s;
 
         int answer = Tour(m, n, start, 1);
         cout<< answer<< endl;
+
         
-        if( answer) {
-            for(int j = 0; j < m; j++) {
-                for(int k = 0; k < n; k++) {
+        if(answer) {
+            for(int j = 1; j <= m; j++) {
+                for(int k = 1; k <= n; k++) {
                     cout<< path[j][k]<< ' ';
                 }
                 cout<<endl;
