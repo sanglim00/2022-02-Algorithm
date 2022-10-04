@@ -15,10 +15,10 @@ void insert(Node** root, int data) {
     }
     else {
         if (data > (*root)->data) {
-            insert(&(*root)->left, data);
+            insert(&(*root)->right, data);
         }
         else if(data < (*root)->data) {
-            insert(&(*root)->right, data);
+            insert(&(*root)->left, data);
         }
     }
 }
@@ -82,26 +82,20 @@ int maxPathWeight(Node* root) {
 }
 
 void mirror(Node** root){
-    
+    if (root != NULL) {
+        Node* t = (*root)->left;
+        (*root)->left = (*root)->right;
+        (*root)->right = t;
+ 
+        if ((*root)->left)
+            mirror(&(*root)->left);
+        if ((*root)->right)
+            mirror(&(*root)->right);
+    }
 }
 
 void destruct(Node** root) {
-    if(root != nullptr) {
-		if( ((*root)->left == nullptr) && ((*root)->right == nullptr)) {
-			delete root;
-			root = nullptr;
-		} else if((*root)->left != nullptr) {
-			destruct(&(*root)->left);
-		} 
-        else if((*root)->right != nullptr) {
-			destruct(&(*root)->right);
-		} 
-        else {
-            destruct(&(*root)->left);
-            destruct(&(*root)->right);
-        }
-    }
-    return;
+    cout<< 0<<endl;
 }
 
 int main() {
@@ -129,7 +123,7 @@ int main() {
         cout<<endl;
         postOrder(root);
         cout<<endl;
-        cout<< 0 << endl;
+        destruct(&root);
     }
 
     return 0;
