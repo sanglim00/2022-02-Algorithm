@@ -17,7 +17,7 @@ void insert(Node** root, int data) {
         if (data > (*root)->data) {
             insert(&(*root)->right, data);
         }
-        else if(data < (*root)->data) {
+        else {
             insert(&(*root)->left, data);
         }
     }
@@ -56,6 +56,8 @@ int height(Node* root) {
     int totalH = 0;
 
     if(root != NULL){
+        if(root->left == NULL && root->right == NULL) return 0;
+
         int leftH = height(root->left);
         int rightH = height(root->right);
         int maxHeight = max(leftH, rightH);
@@ -83,25 +85,22 @@ int maxPathWeight(Node* root) {
 
 void mirror(Node** root){
     if (root != NULL) {
+        if ((*root)->left) mirror(&(*root)->left);
+        if ((*root)->right) mirror(&(*root)->right);
+        
         Node* t = (*root)->left;
         (*root)->left = (*root)->right;
         (*root)->right = t;
- 
-        if ((*root)->left)
-            mirror(&(*root)->left);
-        if ((*root)->right)
-            mirror(&(*root)->right);
     }
 }
 
 void destruct(Node** root) {
-    cout<< 0<<endl;
+    cout << 0 <<endl;
 }
 
 int main() {
 
     int times, num;
-    
     
     cin>> times;
     for(int i = 0; i< times; i++) {
@@ -113,7 +112,7 @@ int main() {
             insert(&root, data);
         }
         cout << size(root) << endl;
-        cout << height(root)-1 << endl;
+        cout << height(root) << endl;
         cout << sumOfWeight(root) << endl;
         cout << maxPathWeight(root) << endl;
         mirror(&root);
