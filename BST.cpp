@@ -75,8 +75,8 @@ int sumOfWeight(Node* root) {
 
 int maxPathWeight(Node* root) {
     if (root != NULL) {
-        int leftW = root->data + sumOfWeight(root->left);
-        int rightW = root->data + sumOfWeight(root->right);
+        int leftW = root->data + maxPathWeight(root->left);
+        int rightW = root->data + maxPathWeight(root->right);
 
         return max(leftW, rightW);
     }
@@ -87,7 +87,7 @@ void mirror(Node** root){
     if (root != NULL) {
         if ((*root)->left) mirror(&(*root)->left);
         if ((*root)->right) mirror(&(*root)->right);
-        
+
         Node* t = (*root)->left;
         (*root)->left = (*root)->right;
         (*root)->right = t;
@@ -95,7 +95,7 @@ void mirror(Node** root){
 }
 
 void destruct(Node** root) {
-    cout << 0 <<endl;
+    cout<< 0<<endl;
 }
 
 int main() {
