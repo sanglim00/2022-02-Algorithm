@@ -12,15 +12,10 @@ void insert(Node** root, int data) {
         Node* p = new Node();
         p->data = data;
         *root = p;
+        return ;
     }
-    else {
-        if (data > (*root)->data) {
-            insert(&(*root)->right, data);
-        }
-        else {
-            insert(&(*root)->left, data);
-        }
-    }
+    if (data > (*root)->data) insert(&(*root)->right, data);
+    else insert(&(*root)->left, data);
 }
 
 void preOrder(Node* root) {
@@ -95,17 +90,29 @@ void mirror(Node** root){
 }
 
 void destruct(Node** root) {
-    cout<< 0<<endl;
+
+    if((*root)->left != NULL) destruct(&(*root)->left);
+    (*root)->left = NULL;
+
+    if((*root)->right != NULL) destruct(&(*root)->right);
+    (*root)->right = NULL;
+
+    if((*root) != nullptr) {
+        delete *root;
+        *root = nullptr;
+    }
 }
 
 int main() {
 
     int times, num;
     
-    cin>> times;
+    cin>> times; 
+    Node* root = NULL;
+
     for(int i = 0; i< times; i++) {
-        Node* root = NULL;
         cin>> num;
+
         for(int j = 0; j < num; j++) {
             int data;
             cin >> data;
@@ -123,6 +130,8 @@ int main() {
         postOrder(root);
         cout<<endl;
         destruct(&root);
+        if(root == nullptr) cout<< 0<< endl;
+        else cout<< 1<<endl;
     }
 
     return 0;
