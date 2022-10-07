@@ -6,7 +6,7 @@ int maxSubsequenceSum (int* arr, int num, int& start, int& end) {
     int maxSum = 0, thisSum = 0;
     int gap = end-1;
 
-    start = end-1;
+    start = end = -1;
     for(int i = 0, j = 0; j< num; j++) {
         thisSum += arr[j];
 
