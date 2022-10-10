@@ -2,28 +2,23 @@
 using namespace std;
 
 int maxSubsequenceSum (int* arr, int num, int& start, int& end) {
-
+    int i, j;
     int maxSum = 0, thisSum = 0;
-    int gap = end-1;
 
     start = end = -1;
-    for(int i = 0, j = 0; j< num; j++) {
+    for(i = 0, j = 0; j< num; j++) {
         thisSum += arr[j];
 
         if(thisSum > maxSum) {
             maxSum = thisSum;
             start = i;
             end = j;
-            gap = j-i;
         }
-        else if(thisSum == maxSum && gap > j-i) {
-            if(start <end) start = start+1;
-        } 
         else if (thisSum < 0) {
             i = j + 1;
+            if(arr[i]== 0) i++;
             thisSum = 0;
         }
-      
     }
     return maxSum;
 }
