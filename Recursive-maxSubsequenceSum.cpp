@@ -2,42 +2,39 @@
 using namespace std;
 
 int crossCenter (int* arr, int left, int mid, int right) {
-    int sum = 0;
-	int leftSum = -1;   // 0보다 작은 값으로 초기화 하기
+    int thisSum = 0, leftSum = 0, rightSum = 0 ; //0으로 초기화
+
 	for (int i = mid; i >= left; i--) {
-		sum = sum + arr[i];
-		if (sum > leftSum)
-			leftSum = sum;
-	}
-	sum = 0;
-	int rightSum = -1;  // 0보다 작은 값으로 초기화 하기
-	for (int i = mid; i <= right; i++) {
-		sum = sum + arr[i];
-		if (sum > rightSum)
-			rightSum = sum;
+		thisSum = thisSum + arr[i];
+		if (thisSum > leftSum) leftSum = thisSum;
 	}
 
-    int maxR = max(leftSum + rightSum - arr[mid], leftSum);
-	return max(maxR, rightSum);
+	thisSum = 0;
+
+	for (int i = mid+1; i <= right; i++) {
+		thisSum = thisSum + arr[i];
+		if (thisSum > rightSum) rightSum = thisSum;
+	}
+
+    return leftSum + rightSum;
 }
 
 int maxSubsequenceSum(int *arr, int left, int right) {
 
-    if(left > right) return 0;
     if(left == right) return arr[left];
+
     int mid = (left + right) / 2;
 
-    int leftSum = maxSubsequenceSum(arr, left, mid - 1);
+    int leftSum = maxSubsequenceSum(arr, left, mid);
     int rightSum = maxSubsequenceSum(arr, mid+1, right);
-    int LRSum = crossCenter(arr, left, mid, right);
+    int crossSum = crossCenter(arr, left, mid, right);
 
-    int maxR = max(leftSum, rightSum);
-    return max(maxR, LRSum);
+    int maxCheck = max(leftSum, rightSum); //왼, 오 크기 비교
+    return max(maxCheck, crossSum); // 위의 값과 교차되는 부분 비교
 }
 
 int main() {
     int times, num, data;
-
 
     cin >> times;
     for(int i = 0; i< times; i++) {
@@ -47,7 +44,6 @@ int main() {
             cin>> data;
             arr[j] = data;
         }
-   
         int answer = maxSubsequenceSum(arr, 0, num-1);
         cout<< answer <<endl;
     }
