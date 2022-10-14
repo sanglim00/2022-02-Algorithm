@@ -11,40 +11,18 @@ int balanceScale(int* arr, int num) {
     return (left > right) ? left-right : right-left;
 }
 
-int checkWeight(int rest) {
-    int count = 0;
+int checkWeight(int& rest) {
+    int cnt = 0;
+    int weightArr[7] = {100, 50, 20, 10, 5, 2, 1};
 
-    while(rest != 0) {
-        if(rest / 100 !=0) {
-            rest %= 100;
-            count++;
-        }
-        if(rest / 50 !=0) {
-            rest %= 50;
-            count++;
-        }
-        if(rest / 20 !=0) {
-            rest %= 20;
-            count++;
-        }
-        if(rest / 10 !=0) {
-            rest %= 10;
-            count++;
-        }
-        if(rest / 5 !=0) {
-            rest %= 5;
-            count++;
-        }
-        if(rest / 2 !=0) {
-            rest %= 2;
-            count++;
-        }
-        if(rest / 1 !=0) {
-            rest %= 1;
-            count++;
+    for(int i = 0; i < 7; i++) {
+        if(rest >= weightArr[i]) {
+            cnt += rest / weightArr[i];
+            rest %= weightArr[i];
         }
     }
-    return count;
+
+    return cnt;
 }
 
 
@@ -52,6 +30,7 @@ int main() {
     int times, num, data;
 
     cin>>times;
+
     for(int i = 0; i< times; i++) {
         cin >>num;
         int* arr = new int[num];
@@ -61,7 +40,7 @@ int main() {
         }
         int answer = balanceScale(arr, num);
         if(answer != 0) answer = checkWeight(answer);
-        
+
         cout<< answer <<endl;
     }
 
