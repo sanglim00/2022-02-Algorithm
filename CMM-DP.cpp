@@ -1,17 +1,11 @@
 #include <iostream>
 using namespace std;
 
-#define MAX 100
-
 
 int CMM(int arr[], int num) {
     int** mat = new int*[num];
-    int** print = new int*[num];
  
-    for (int i = 0; i < num; i++) {
-        mat[i] = new int[num];
-        print[i] = new int[num];
-    }
+    for (int i = 0; i < num; i++) mat[i] = new int[num];
     for (int i = 1; i < num; i++) mat[i][i] = 0;
  
     for (int diagonal = 1; diagonal < num; diagonal++) {
