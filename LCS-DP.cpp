@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#define MAX 100
+#define MAX 101
 #define max(a, b) (a > b) ? a : b 
 
 int L[MAX][MAX], S[MAX][MAX];
